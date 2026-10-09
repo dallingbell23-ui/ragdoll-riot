@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ragdoll Riot</title>
+<meta name="description" content="Ragdoll Riot is a ragdoll physics shooter. Fight zombies or your friends on the same Wi-Fi or online, in your browser or on Android.">
+<link rel="icon" href="img/icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: the game's own dark screen. Title and play button first, pictures of the game next, then what you can do in it. */
+:root {
+  --bg: #12151c; --panel: #1b2029; --text: #dfe6f0; --dim: #8b97a8; --line: #2f3847; --accent: #4cc9f0; --btn: #2f93cc; --red: #e0564f; --blue: #4a8fe0;
+  --display: 'Bowlby One', Impact, 'Arial Black', sans-serif;
+  --body: 'Public Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 1040px; margin-inline: auto; padding-inline: 20px; }
+a { color: var(--accent); }
+a:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+img { max-width: 100%; height: auto; display: block; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.1; margin: 0; text-wrap: balance; }
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); letter-spacing: 0.06em; text-decoration: none; color: var(--text); }
+.brand img { width: 36px; height: 36px; border-radius: 8px; }
+.brand span { color: var(--accent); }
+.top nav { display: flex; gap: 20px; flex-wrap: wrap; }
+.top nav a { color: var(--dim); text-decoration: none; font-weight: 600; }
+.top nav a:hover { color: var(--text); }
+
+.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 36px; align-items: center; padding-block: 36px 56px; }
+.hero h1 { font-size: clamp(2.8rem, 9vw, 5.4rem); letter-spacing: 0.02em; }
+.hero h1 span { color: var(--accent); display: block; }
+.hero p { margin: 18px 0 0; font-size: 1.15rem; max-width: 34ch; }
+.cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 26px; }
+.btn { display: inline-block; font-family: var(--display); letter-spacing: 0.08em; font-size: 1.15rem; color: #fff; text-decoration: none; background: var(--btn); padding: 16px 30px; border-radius: 4px; box-shadow: inset 0 3px 0 #8bd2f8, inset 0 -5px 0 #1d6088; }
+.btn:hover { filter: brightness(1.1); }
+.btn:active { transform: translateY(2px); }
+.soon { color: var(--dim); font-size: 0.95rem; max-width: 22ch; line-height: 1.4; }
+.shot { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--panel); margin: 0; }
+.shot figcaption { padding: 10px 14px; color: var(--dim); font-size: 0.9rem; }
+.tilt { transform: rotate(1.5deg); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+
+section { padding-block: 48px; border-top: 1px solid var(--line); }
+section > h2 { font-size: clamp(1.6rem, 4.5vw, 2.3rem); margin-bottom: 8px; }
+.lead { color: var(--dim); margin: 0 0 26px; max-width: 60ch; }
+.games { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.game { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 20px; }
+.game h3 { font-size: 1.25rem; margin-bottom: 8px; }
+.game p { margin: 0; color: var(--dim); }
+.game.z h3 { color: #8fd36b; } .game.t h3 { color: var(--red); } .game.t h3 span { color: var(--blue); } .game.s h3 { color: var(--accent); }
+.more { margin: 22px 0 0; color: var(--dim); max-width: 70ch; }
+.more strong { color: var(--text); }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+.two ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { color: var(--dim); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+kbd { font-family: var(--body); font-weight: 700; background: var(--panel); border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 4px; padding: 1px 8px; white-space: nowrap; }
+.scroll { overflow-x: auto; }
+footer { border-top: 1px solid var(--line); padding-block: 26px 40px; color: var(--dim); font-size: 0.92rem; display: flex; gap: 18px; justify-content: space-between; flex-wrap: wrap; }
+
+@media (max-width: 760px) {
+  .hero, .two { grid-template-columns: minmax(0, 1fr); }
+  .games, .pair { grid-template-columns: minmax(0, 1fr); }
+  .tilt { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .btn:active { transform: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html"><img src="img/icon.png" alt="">RAGDOLL&nbsp;<span>RIOT</span></a>
+    <nav><a href="#games">Games</a><a href="#together">Play together</a><a href="#controls">Controls</a><a href="privacy.html">Privacy</a></nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>RAGDOLL <span>RIOT</span></h1>
+      <p>A physics shooter where everybody is a floppy ragdoll. Hold a building against zombies, or go after your friends.</p>
+      <div class="cta">
+        <a class="btn" id="play" href="play/index.html">PLAY NOW</a>
+        <span class="soon">Free, in your browser. The Android app is in testing on Google Play.</span>
+      </div>
+    </div>
+    <figure class="shot tilt"><img src="img/zombies-1.jpg" width="1280" height="720" alt="A ragdoll soldier at the foot of a boarded-up staircase in a warehouse while zombies come in from the left"></figure>
+  </div>
+
+  <section id="games">
+    <h2>Three ways to fight</h2>
+    <p class="lead">Every hit throws bodies around with real physics, so no two fights go the same way.</p>
+    <div class="games">
+      <div class="game z"><h3>Zombies</h3><p>Hold the building together as the rounds get harder. Put boards back on the windows, buy better guns with your points and open new rooms.</p></div>
+      <div class="game t"><h3>Team <span>Slayer</span></h3><p>Red team against blue. The first team to the target score wins.</p></div>
+      <div class="game s"><h3>Slayer</h3><p>Everyone for themselves. Add bots if you are short of people.</p></div>
+    </div>
+    <p class="more"><strong>On a computer there is more:</strong> a free-play sandbox, solo modes, and extra team games including Gun Game, King of the Hill, Capture the Flag and Infection. Zombies has its own set of maps, two of them filling with lava as the rounds go on.</p>
+  </section>
+
+  <section>
+    <h2>What it looks like</h2>
+    <p class="lead">Pictures from the phone version.</p>
+    <div class="pair">
+      <figure class="shot"><img src="img/zombies-2.jpg" width="1280" height="720" alt="Zombies mode in the warehouse map with a bot team-mate and the on-screen touch controls" loading="lazy"><figcaption>Zombies in the Warehouse, with a bot on your side.</figcaption></figure>
+      <figure class="shot"><img src="img/rooms.jpg" width="1280" height="720" alt="The play page: choose Zombies, Team Slayer or Slayer, then host or join a game" loading="lazy"><figcaption>Pick a game, then host one or join one from the list.</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="together">
+    <h2>Play together</h2>
+    <p class="lead">Up to 8 players in a room. Phones and computers can play in the same game.</p>
+    <div class="two">
+      <ul>
+        <li><strong>Same Wi-Fi:</strong> host a game on a phone and everyone on your network sees it in their list.</li>
+        <li><strong>Friends:</strong> every player gets a friend code. Give yours out and friends can join any game you host.</li>
+        <li><strong>Anyone online:</strong> open your game to everybody, or join one that is already running.</li>
+        <li><strong>On your own:</strong> fill the game with bots and play without anyone else.</li>
+      </ul>
+      <ul>
+        <li>No account and no sign-in.</li>
+        <li>No ads.</li>
+        <li>Your name, settings and progress are saved on your own device.</li>
+        <li>Playing online needs an internet connection.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="controls">
+    <h2>Controls</h2>
+    <p class="lead">On a phone you can pick two sticks, or one stick with auto-aim buttons, and drag the buttons wherever you like.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Do this</th><th>Computer</th><th>Phone</th></tr></thead>
+        <tbody>
+          <tr><td>Move</td><td><kbd>A</kbd> <kbd>D</kbd></td><td>Left stick</td></tr>
+          <tr><td>Jump or climb</td><td><kbd>W</kbd></td><td>Left stick up, or JUMP</td></tr>
+          <tr><td>Go down a ladder</td><td><kbd>S</kbd></td><td>Left stick down</td></tr>
+          <tr><td>Aim and shoot</td><td>Mouse, click to fire</td><td>Right stick, or FIRE</td></tr>
+          <tr><td>Use, buy, repair</td><td><kbd>E</kbd></td><td>USE</td></tr>
+          <tr><td>Drop your gun</td><td><kbd>Q</kbd></td><td>DROP</td></tr>
+          <tr><td>Change gun (Zombies)</td><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>SWAP</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <span>Ragdoll Riot is an independent game.</span>
+    <span><a href="play/index.html">Play</a> · <a href="privacy.html">Privacy policy</a></span>
+  </footer>
+</div>
+<script>
+// a phone or tablet gets the touch version of the game
+(function () {
+  var touch = (navigator.maxTouchPoints || 0) > 0 && window.matchMedia('(pointer: coarse)').matches;
+  if (!touch) return;
+  var links = document.querySelectorAll('a[href="play/index.html"]');
+  for (var i = 0; i < links.length; i++) links[i].href = 'play-phone/index.html';
+})();
+</script>
+</body>
+</html>
